@@ -1,3 +1,3 @@
-# aoc
+# Advent of Code
 
-Just a few lines to solve advent of code
+Keep it short
