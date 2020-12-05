@@ -71,16 +71,16 @@ def day4_2(): #186
 
 def _day5(seat):
     row = seat[:7].replace("F", "0").replace("B", "1")
-    column = seat[-4:].replace("L", "0").replace("R", "1")
+    column = seat[7:].replace("L", "0").replace("R", "1")
     return int(row, base=2) * 8 + int(column, base=2)
 
 def _day5_ids():
-    return {_day5(seat) for seat in open("day5.txt")}
+    return {_day5(seat.strip()) for seat in open("day5.txt")}
 
 def day5_1(): #828
     print(max(_day5_ids()))
 
-def day5_2(): #556
+def day5_2(): #565
     ids = _day5_ids()
     print(set(range(min(ids), max(ids))).difference(ids))
 
@@ -93,3 +93,5 @@ if __name__ == "__main__":
     day3_2()
     day4_1()
     day4_2()
+    day5_1()
+    day5_2()
