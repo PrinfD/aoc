@@ -1,18 +1,20 @@
 import re
-import numpy as np
 import math
 from itertools import combinations
+from functools import reduce
 
 def _count(iterable, condition):
     return len([i for i in iterable if condition(i)])
 
+def _day1(depth):
+    nums = set(int(line.strip()) for line in open("day1.txt"))
+    print([math.prod(c) for c in combinations(nums, depth) if sum(c) == 2020])
+
 def day1_1(): #788739
-    res = set(int(line.strip()) for line in open("day1.txt"))
-    print(set((n * (2020 - n)) for n in res if (2020 - n) in res))
+    _day1(2)
 
 def day1_2(): #222 843 955 178724430
-    res = set(int(line.strip()) for line in open("day1.txt"))
-    print([x * y * z for (x, y, z) in combinations(res, 3) if x + y + z == 2020])
+    _day1(3)
 
 def _day2_1_check(r):
     return int(r.group(1)) <= r.group(4).count(r.group(3)) <= int(r.group(2))
@@ -37,7 +39,7 @@ def day3_1(): #173
     print(_day3(3, 1))
 
 def day3_2(): #4385176320
-    print(np.product([_day3(i % 8, 1 + i // 9) for i in range(1, 10, 2)], dtype=np.uint64))
+    print(math.prod([_day3(i % 8, 1 + i // 9) for i in range(1, 10, 2)]))
 
 def _day4_filtered():
     result = "".join(open("day4.txt").readlines()).strip() #last linebreak has to be removed 
@@ -84,7 +86,7 @@ def _day6_1_counter(group):
     return len(set(group.replace("\n", "")))
 
 def _day6_2_counter(group):
-    return len({c for c in "abcdefghijklmnopqrstuvwxyz" if group.count(c) == 1 + group.count("\n")})
+    return len(reduce(lambda x, y: x.intersection(y), [set(g) for g in group.split()]))
 
 def _day6(counter):
     result = "".join(open("day6.txt").readlines()).strip() #last linebreak has to be removed 
