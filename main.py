@@ -1,6 +1,7 @@
 import re
 import numpy as np
 import math
+from itertools import combinations
 
 def _count(iterable, condition):
     return len([i for i in iterable if condition(i)])
@@ -11,12 +12,7 @@ def day1_1(): #788739
 
 def day1_2(): #222 843 955 178724430
     res = set(int(line.strip()) for line in open("day1.txt"))
-
-    for val1 in res:
-        for val2 in res:
-            if val1 < val2 and (2020 - val1 - val2) in res:
-                print(val1, val2, 2020 - val1 - val2, val1*val2* (2020 - val1 - val2))
-
+    print([x * y * z for (x, y, z) in combinations(res, 3) if x + y + z == 2020])
 
 def _day2_1_check(r):
     return int(r.group(1)) <= r.group(4).count(r.group(3)) <= int(r.group(2))
