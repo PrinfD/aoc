@@ -44,7 +44,7 @@ def day3_2(): #4385176320
     print(np.product([_day3(i % 8, 1 + i // 9) for i in range(1, 10, 2)], dtype=np.uint64))
 
 def _day4_filtered():
-    result = "".join(open("day4.txt").readlines()) #Manually removed last linebreak
+    result = "".join(open("day4.txt").readlines()).strip() #last linebreak has to be removed 
     ports = [re.split(r"\s", row) for row in result.split("\n\n")]
     ports = [dict(field.split(":") for field in port) for port in ports]
     expected = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
@@ -84,6 +84,22 @@ def day5_2(): #565
     ids = _day5_ids()
     print(set(range(min(ids), max(ids))).difference(ids))
 
+def _day6_1_counter(group):
+    return len(set(group.replace("\n", "")))
+
+def _day6_2_counter(group):
+    return len({c for c in "abcdefghijklmnopqrstuvwxyz" if group.count(c) == 1 + group.count("\n")})
+
+def _day6(counter):
+    result = "".join(open("day6.txt").readlines()).strip() #last linebreak has to be removed 
+    print(sum([counter(row) for row in result.split("\n\n")]))
+
+def day6_1(): #6310
+    _day6(_day6_1_counter)
+
+def day6_2(): #3193
+    _day6(_day6_2_counter)
+
 if __name__ == "__main__":
     day1_1()
     day1_2()
@@ -95,3 +111,5 @@ if __name__ == "__main__":
     day4_2()
     day5_1()
     day5_2()
+    day6_1()
+    day6_2()
