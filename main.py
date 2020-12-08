@@ -68,9 +68,8 @@ def day4_2(): #186
     print(_count(_day4_filtered(), _day4_2_check))
 
 def _day5(seat):
-    row = seat[:7].replace("F", "0").replace("B", "1")
-    column = seat[7:].replace("L", "0").replace("R", "1")
-    return int(row, base=2) * 8 + int(column, base=2)
+    str_to_int = seat.replace("F", "0").replace("B", "1").replace("L", "0").replace("R", "1")
+    return int(str_to_int, base=2)
 
 def _day5_ids():
     return {_day5(seat.strip()) for seat in open("day5.txt")}
