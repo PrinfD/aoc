@@ -1,13 +1,6 @@
 import re
 import numpy as np
 
-
-def read():
-    return [line for line in open("day17.txt")]
-
-def char_to_bool(c):
-    return c == "#"
-
 def in_range(v, r):
     return 0 <= v < r
 
@@ -22,16 +15,6 @@ def neig_count(w, x, y, z, pocket_dim):
                             if pocket_dim[z + dz][y + dy][x + dx][w + dw]:
                                 count += 1
     return count
-
-def total(pocket_dim):
-    total = 0
-    for z in pocket_dim:
-        for y in z:
-            for x in y:
-                for w in x:
-                    if w:
-                        total += 1
-    return total
 
 
 def is_active(w, x, y, z, pocket_dim):
@@ -54,14 +37,14 @@ def expand_dim(pocket_dim):
 
 def day17_1():
     pocket_dim = [[[]]]
-    pocket_dim[0][0] = [[char_to_bool(char) for char in line.strip()] for line in open("day17.txt")]
+    pocket_dim[0][0] = [[char == "#" for char in line.strip()] for line in open("day17.txt")]
 
     print(pocket_dim)
     for i in range(6):
+        print(i, np.sum(pocket_dim))
         pocket_dim = expand_dim(pocket_dim)
-        print(i)
 
-    print(total(pocket_dim))
+    print(np.sum(pocket_dim))
 
 def day17_2():
     pass

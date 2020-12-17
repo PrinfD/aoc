@@ -15,15 +15,6 @@ def neig_count(x, y, z, pocket_dim):
                         count += 1
     return count
 
-def total(pocket_dim):
-    total = 0
-    for z in pocket_dim:
-        for y in z:
-            total += sum(y)
-
-    return total
-
-
 def is_active(x, y, z, pocket_dim):
     return in_range(z, len(pocket_dim)) and in_range(y, len(pocket_dim[z])) and in_range(x, len(pocket_dim[z][y])) and pocket_dim[z][y][x]
 
@@ -45,10 +36,10 @@ def day17_1():
 
     print(pocket_dim)
     for i in range(6):
-        print(i, total(pocket_dim))
+        print(i, np.sum(pocket_dim))
         pocket_dim = expand_dim(pocket_dim)
 
-    print(total(pocket_dim))
+    print(np.sum(pocket_dim))
 
 
 if __name__ == "__main__":
