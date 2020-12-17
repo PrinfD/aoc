@@ -6,21 +6,22 @@ import itertools
 def in_range(v, r):
     return 0 <= v < len(r)
 
-def neig_count(x, y, z, pocket_dim):
-    count = 0
-    for dz, dy, dx in itertools.product(range(-1, 2), repeat=3):
-        if in_range(z + dz, pocket_dim) and in_range(y + dy, pocket_dim[z+dz]) and in_range(x + dx, pocket_dim[z+dz][y+dy]):
-            if pocket_dim[z + dz][y + dy][x + dx]:
-                count += 1
-    return count
 
 def is_active(x, y, z, pocket_dim):
     return in_range(z, pocket_dim) and in_range(y, pocket_dim[z]) and in_range(x, pocket_dim[z,y]) and pocket_dim[z,y,x]
 
 
+def neig_count(x, y, z, pocket_dim):
+    count = 0
+    for dz, dy, dx in itertools.product(range(-1, 2), repeat=3):
+        if is_active(x+dx, y+dy, z+dz, pocket_dim):
+            count += 1
+    return count
+
+
 def expand_dim(pocket_dim):
     size = np.add(np.array(pocket_dim.shape), 2)
-    next_cycle = np.zeros(size, dtype=bool)
+    next_cycle = np.empty(size, dtype=bool)
 
     nz, ny, nx = size
     for z, y, x in itertools.product(range(nz), range(ny), range(nx)):
@@ -31,8 +32,6 @@ def expand_dim(pocket_dim):
 
 def day17_1():
     pocket_dim = np.array([[[c == "#" for c in line.strip()] for line in open("day17.txt")]], dtype=bool)
-
-    print(pocket_dim)
     for i in range(6):
         print(i, np.sum(pocket_dim))
         pocket_dim = expand_dim(pocket_dim)
