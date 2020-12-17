@@ -2,19 +2,12 @@ import re
 
 def day15(idx):
     nums = {}
-    last_dif = 0
-    cur_num = 0
-    turn = 0
-    
-    for line in open("day15.txt").readline().strip().split(","):
-        turn += 1
-        cur_num = int(line)
-        last_dif = turn - nums.get(cur_num, turn)
-        nums[cur_num] = turn
+    last_dif, cur_num, turn = 0, 0, 0
+    honk_honk = [int(line) for line in open("day15.txt").readline().strip().split(",")]
 
     while turn < idx:
+        cur_num = honk_honk[turn] if turn < len(honk_honk) else last_dif
         turn += 1
-        cur_num = last_dif
         last_dif = turn - nums.get(cur_num, turn)
         nums[cur_num] = turn
 
