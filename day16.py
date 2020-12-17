@@ -91,7 +91,7 @@ def day16_2():
             value = ticket[i]
             p = possible[i]
 
-            new_p = set(field for field in p if check_rule(rulies[field], ticket[i]))
+            new_p = set(field for field in p if check_rule(rulies[field], value))
             possible[i] = new_p
 
             if len(new_p) == 1:
