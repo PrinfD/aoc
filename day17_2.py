@@ -13,14 +13,14 @@ def is_active(w, x, y, z, pocket_dim):
 
 def neig_count(w, x, y, z, pocket_dim):
     count = 0
-    for dz, dy, dx, dw in itertools.product(range(-1, 2), repeat=4):
+    for dz, dy, dx, dw in itertools.product(range(-1, 2), repeat=pocket_dim.ndim):
         if is_active(w+dw, x+dx, y+dy, z+dz, pocket_dim):
             count += 1
     return count
 
 
 def expand_dim(pocket_dim):
-    size = np.add(np.array(pocket_dim.shape), 2)
+    size = np.array(pocket_dim.shape) + 2
     next_cycle = np.empty(size, dtype=bool)
 
     nz, ny, nx, nw = size
