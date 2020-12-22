@@ -29,38 +29,27 @@ class Rule:
 
 
     def full_match(self, line):
-        return len(line) in self.get_idxs_after_match(line, 0)
+        return len(line) in self._get_idxs_after_match(line, [0])
 
 
-    def get_idxs_after_match(self, line, start_idx):
+    def _get_idxs_after_match(self, line, start_idxs):
         if self._char:
-            if start_idx >= len(line) or line[start_idx] != self._charmatch:
-                return []
-            else:
-                return [start_idx + 1]
+            return [idx + 1 for idx in start_idxs if idx < len(line) and line[idx] == self._charmatch]
         else:
-            return self._try_match(line, start_idx)
+            return self._try_match(line, start_idxs)
 
 
-    def _try_match(self, line, start_idx):
+    def _try_match(self, line, start_idxs):
         matched_idxs = []
-        next_idxs = [start_idx]
         for alt in self._alternatives:
+            next_idxs = [i for i in start_idxs]
             for rule in alt:
-                new_next_idxs = []
-                for next_idx in next_idxs:
-                    res = Rule.__rules[rule].get_idxs_after_match(line, next_idx)
-                    for next_res in res:
-                        new_next_idxs.append(next_res)
-                        
-                next_idxs = new_next_idxs
-                if not new_next_idxs:
+                next_idxs = Rule.__rules[rule]._get_idxs_after_match(line, next_idxs)
+                if not next_idxs:
                     break
             
             for next_idx in next_idxs:
                 matched_idxs.append(next_idx)
-            
-            next_idxs = [start_idx]
 
         return matched_idxs
 
