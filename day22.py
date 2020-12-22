@@ -15,7 +15,7 @@ def get_decks():
 def calc_score(deck):
     return sum(deck[-i] * i for i in range(1 + len(deck)))
 
-def determine_game_result(p1, p2):
+def print_game_result(p1, p2):
     if p1:
         print("Player 1 wins!", "Score: ", calc_score(p1))
     else:
@@ -79,12 +79,12 @@ def add_ordering(p1, p2, o):
 def day22_1(): #30780
     p1, p2 = get_decks()
     play_simple_game(p1, p2)
-    determine_game_result(p1, p2)
+    print_game_result(p1, p2)
 
 def day22_2(): #36621
     p1, p2 = get_decks()
     play_recursive_game(p1, p2, True)
-    determine_game_result(p1, p2)
+    print_game_result(p1, p2)
 
 
 if __name__ == "__main__":
