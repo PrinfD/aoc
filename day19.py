@@ -11,18 +11,15 @@ class Rule:
 
 
     def _init_rule(self, rule):
-        self._alternatives = []
         if rule == '"a"' or rule == '"b"':
             self._charmatch = rule[1]
             self._char = True
+            self._alternatives = []
         else:
             self._charmatch = []
             self._char = False
-            alts = rule.strip().split("|")
-            for alt in alts:
-                rules = alt.split()
-                self._alternatives.append(rules)
-    
+            self._alternatives = [alternative.split() for alternative in rule.strip().split("|")]
+
 
     def set_rule(self, newrule):
         self._init_rule(newrule)
@@ -53,25 +50,27 @@ class Rule:
 
         return matched_idxs
 
-def read():
-    content = "".join(line for line in open("day19.txt"))
-    rules, text_string = content.strip().split("\n\n")
-    text_arr = text_string.split()
-    return (rules, text_arr)
 
 def parse_rules(rules):
     rulemap = {rule.split(": ")[0] : Rule(rule.split(": ")[1], rule.split(": ")[0]) for rule in rules.split("\n")}
     return rulemap
 
+
+def read_input():
+    content = "".join(line for line in open("day19.txt"))
+    rules_str, text_string = content.strip().split("\n\n")
+    text_arr = text_string.split()
+    rules = parse_rules(rules_str)
+    return (rules, text_arr)
+
+
 def day19_1():
-    rule_str, text = read()
-    rules = parse_rules(rule_str)
+    rules, text = read_input()
     result = [rules["0"].full_match(line) for line in text]
     print(sum(result))
 
 def day19_2():
-    rule_str, text = read()
-    rules = parse_rules(rule_str)
+    rules, text = read_input()
     rules["8"].set_rule("42 | 42 8")
     rules["11"].set_rule("42 31 | 42 11 31")
     result = [rules["0"].full_match(line) for line in text]
